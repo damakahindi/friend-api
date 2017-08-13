@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const Friend = require('./server/models/friend');
 
 // Initializing the express app
 const app = express();
@@ -12,9 +14,13 @@ app.use(bodyParser.json());
 // Set up the port
 const port = process.env.PORT || 8080;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// connect to our database
+mongoose.connect('mongodb://dama:dama@ds145283.mlab.com:45283/friend', {
+  useMongoClient: true,
+}).then(
+  () => { console.info('Connected to database')},
+  (err) => { console.info('Failed to connect to database', err) }
+);
 
 // get an instance of the express Router
 const router = express.Router();
